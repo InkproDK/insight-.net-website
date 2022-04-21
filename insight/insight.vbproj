@@ -292,8 +292,14 @@
     <Content Include="warehouse\assets\js\plugins\chartjs.min.js" />
     <Content Include="warehouse\assets\js\plugins\perfect-scrollbar.jquery.min.js" />
     <Content Include="warehouse\default.aspx" />
-    <Content Include="Web.config" />
     <Content Include="Bundle.config" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.vb" />
@@ -451,12 +457,6 @@
     <Content Include="warehouse\assets\scss\paper-dashboard\plugins\_plugin-perfect-scrollbar.scss" />
     <Content Include="warehouse\assets\scss\paper-dashboard.scss" />
     <Content Include="warehouse\assets\scss\paper-dashboard\_sidebar-and-main-panel.scss" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
