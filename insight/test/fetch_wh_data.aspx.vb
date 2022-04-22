@@ -31,58 +31,69 @@ Public Class fetch_wh_data
         GetOrdersAll()
         GetOrdersForToday()
         GetOrdersShippedToday()
-        GetOrdersPickByZone()
+        GetOrdersByPickZone()
         GetVariousOrderData()
 
-        Response.Write("All orders:<br>DK: " & intAll_DK & "<br>SE: " & intAll_SE & "<br>NO: " & intAll_NO & "<br><br>")
+        Try
 
-        Response.Write("Orders for today:<br>DK: " & intCreatedToday_DK & "<br>SE: " & intCreatedToday_SE & "<br>NO: " & intCreatedToday_NO & "<br><br>")
+            Dim SqlCmdInsertSnapshot As SqlCommand = objWEB01Conn.CreateCommand
+            SqlCmdInsertSnapshot.CommandText = "
+                                            IF NOT EXISTS (SELECT TOP 1 * FROM [insight].[dbo].[wh_snapshots]
+                                                WHERE All_DK = @All_DK AND All_SE = @All_SE AND All_NO = @All_NO AND CreatedToday_DK = @CreatedToday_DK AND CreatedToday_SE = @CreatedToday_SE 
+                                                AND CreatedToday_NO = @CreatedToday_NO AND SplitAll = @SplitAll AND SplitSentToday = @SplitSentToday AND ReadyToPickAll = @ReadyToPickAll
+		                                        AND ReadyToPickCreatedToday = @ReadyToPickCreatedToday AND PickedReadyToShip = @PickedReadyToShip AND ShippedToday_DK = @ShippedToday_DK
+                                                AND ShippedToday_SE = @ShippedToday_SE AND ShippedToday_NO = @ShippedToday_NO
+                                                AND PickZone_Bestilling = @PickZone_Bestilling AND PickZone_Kompatibel = @PickZone_Kompatibel AND PickZone_Office = @PickZone_Office
+                                                AND PickZone_Original = @PickZone_Original AND PickZone_Toner = @PickZone_Toner
+                                                AND Id = (SELECT MAX(Id) FROM [insight].[dbo].[wh_snapshots]) ORDER BY Id DESC)
+                                            BEGIN
+                                            INSERT INTO wh_snapshots
+                                                (All_DK, All_SE, All_NO, CreatedToday_DK, CreatedToday_SE, CreatedToday_NO, SplitAll, SplitSentToday, ReadyToPickAll,
+                                                ReadyToPickCreatedToday, PickedReadyToShip, ShippedToday_DK, ShippedToday_SE, ShippedToday_NO, PickZone_Bestilling, PickZone_Kompatibel,
+                                                PickZone_Office, PickZone_Original, PickZone_Toner, SnapshotCreatedAt) VALUES
+                                                (@All_DK, @All_SE, @All_NO, @CreatedToday_DK, @CreatedToday_SE, @CreatedToday_NO, @SplitAll, @SplitSentToday, @ReadyToPickAll,
+                                                @ReadyToPickCreatedToday, @PickedReadyToShip, @ShippedToday_DK, @ShippedToday_SE, @ShippedToday_NO, @PickZone_Bestilling,
+                                                @PickZone_Kompatibel, @PickZone_Office, @PickZone_Original, @PickZone_Toner, @SnapshotCreatedAt)
+                                            END"
 
-        Response.Write("Orders sent today:<br>DK: " & intShippedToday_DK & "<br>SE: " & intShippedToday_SE & "<br>NO: " & intShippedToday_NO & "<br><br>")
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@All_DK", intAll_DK)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@ALL_SE", intAll_SE)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@ALL_NO", intAll_NO)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@CreatedToday_DK", intCreatedToday_DK)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@CreatedToday_SE", intCreatedToday_SE)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@CreatedToday_NO", intCreatedToday_NO)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@SplitAll", intSplitAll)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@SplitSentToday", intSplitSentToday)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@ReadyToPickAll", intReadyToPickAll)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@ReadyToPickCreatedToday", intReadyToPickCreatedToday)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@PickedReadyToShip", intPickedReadyToShip)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@ShippedToday_DK", intShippedToday_DK)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@ShippedToday_SE", intShippedToday_SE)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@ShippedToday_NO", intShippedToday_NO)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@PickZone_Bestilling", intPickZone_Bestilling)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@PickZone_Kompatibel", intPickZone_Kompatibel)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@PickZone_Office", intPickZone_Office)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@PickZone_Original", intPickZone_Original)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@PickZone_Toner", intPickZone_Toner)
+            SqlCmdInsertSnapshot.Parameters.AddWithValue("@SnapshotCreatedAt", dtSnapshotCreatedAt)
 
-        Response.Write("Pluk i zoner:<br>Bestilling: " & intPickZone_Bestilling & "<br>Kompatibel: " & intPickZone_Kompatibel & "<br>Office: " & intPickZone_Office &
-                       "<br>Original: " & intPickZone_Original & "<br>Toner: " & intPickZone_Toner & "<br><br>")
+            If Not objSQL01Conn.State = ConnectionState.Open Then
+                    objWEB01Conn.Open()
+                End If
 
-        Response.Write("Delordrer i alt: " & intSplitAll & "<br>Delordrer sendt i dag: " & intSplitSentToday & "<br>Ordrer klar til pluk: " & intReadyToPickAll &
-               "<br>Ordrer sendt til pluk i dag: " & intReadyToPickCreatedToday & "<br>Plukket, klar til pak: " & intPickedReadyToShip & "<br>Snapshot taget: " & dtSnapshotCreatedAt)
+            SqlCmdInsertSnapshot.ExecuteNonQuery()
 
-        Dim SqlCmdInsertSnapshop As SqlCommand = objWEB01Conn.CreateCommand
-        SqlCmdInsertSnapshop.CommandText = "INSERT INTO wh_snapshots
-                                            (All_DK, ALL_SE, ALL_NO, CreatedToday_DK, CreatedToday_SE, CreatedToday_NO, SplitAll, SplitSentToday, ReadyToPickAll, ReadyToPickCreatedToday, 
-                                            PickedReadyToShip, ShippedToday_DK, ShippedToday_SE, ShippedToday_NO, PickZone_Bestilling, PickZone_Kompatibel, PickZone_Office, 
-                                            PickZone_Original, PickZone_Toner, SnapshotCreatedAt) VALUES
-                                            (@All_DK, @ALL_SE, @ALL_NO, @CreatedToday_DK, @CreatedToday_SE, @CreatedToday_NO, @SplitAll, @SplitSentToday, @ReadyToPickAll,
-                                            @ReadyToPickCreatedToday, @PickedReadyToShip, @ShippedToday_DK, @ShippedToday_SE, @ShippedToday_NO, @PickZone_Bestilling,
-                                            @PickZone_Kompatibel, @PickZone_Office, @PickZone_Original, @PickZone_Toner, @SnapshotCreatedAt)"
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@All_DK", intAll_DK)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@ALL_SE", intAll_SE)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@ALL_NO", intAll_NO)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@CreatedToday_DK", intCreatedToday_DK)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@CreatedToday_SE", intCreatedToday_SE)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@CreatedToday_NO", intCreatedToday_NO)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@SplitAll", intSplitAll)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@SplitSentToday", intSplitSentToday)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@ReadyToPickAll", intReadyToPickAll)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@ReadyToPickCreatedToday", intReadyToPickCreatedToday)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@PickedReadyToShip", intPickedReadyToShip)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@ShippedToday_DK", intShippedToday_DK)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@ShippedToday_SE", intShippedToday_SE)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@ShippedToday_NO", intShippedToday_NO)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@PickZone_Bestilling", intPickZone_Bestilling)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@PickZone_Kompatibel", intPickZone_Kompatibel)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@PickZone_Office", intPickZone_Office)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@PickZone_Original", intPickZone_Original)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@PickZone_Toner", intPickZone_Toner)
-        SqlCmdInsertSnapshop.Parameters.AddWithValue("@SnapshotCreatedAt", dtSnapshotCreatedAt.ToLongDateString())
+            objWEB01Conn.Close()
 
-        If Not objSQL01Conn.State = ConnectionState.Open Then
-            objWEB01Conn.Open()
-        End If
+            SqlCmdInsertSnapshot.Parameters.Clear()
 
-        SqlCmdInsertSnapshop.ExecuteNonQuery()
-        SqlCmdInsertSnapshop.Parameters.Clear()
-
-        objWEB01Conn.Close()
+        Catch ex As Exception
+            Response.Write("Exception in GetVariousOrderData(): " & ex.ToString())
+        Finally
+            If Not objSQL01Conn.State = ConnectionState.Closed Then
+                objWEB01Conn.Close()
+            End If
+        End Try
 
     End Sub
 
@@ -118,33 +129,27 @@ Public Class fetch_wh_data
         Dim strSqlReader As SqlDataReader = strSqlCmdGetOrdersAll.ExecuteReader()
         Try
 
-            Dim arrValues As List(Of String()) = New List(Of String())
-
             While strSqlReader.Read()
 
-                arrValues.Add({strSqlReader("Antal"), strSqlReader("Land")})
+                If strSqlReader("Land") = "DKK" Then
+                    intAll_DK = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Land") = "SEK" Then
+                    intAll_SE = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Land") = "NOK" Then
+                    intAll_NO = strSqlReader("Antal")
+                End If
 
             End While
 
-            For Each orders_all In arrValues
-                If orders_all(1) = "DKK" Then
-                    intAll_DK = orders_all(0)
-                End If
-                If orders_all(1) = "SEK" Then
-                    intAll_SE = orders_all(0)
-                End If
-                If orders_all(1) = "NOK" Then
-                    intAll_NO = orders_all(0)
-                End If
-            Next
-
-
+            objSQL01Conn.Close()
 
         Catch ex As Exception
             Response.Write(ex.ToString())
         End Try
-
-        objSQL01Conn.Close()
 
     End Sub
 
@@ -178,31 +183,27 @@ Public Class fetch_wh_data
         Dim strSqlReader As SqlDataReader = strSqlCmdGetOrdersForToday.ExecuteReader()
         Try
 
-            Dim arrValues As List(Of String()) = New List(Of String())
-
             While strSqlReader.Read()
 
-                arrValues.Add({strSqlReader("Antal"), strSqlReader("Land")})
+                If strSqlReader("Land") = "DKK" Then
+                    intCreatedToday_DK = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Land") = "SEK" Then
+                    intCreatedToday_SE = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Land") = "NOK" Then
+                    intCreatedToday_NO = strSqlReader("Antal")
+                End If
 
             End While
 
-            For Each orders_all In arrValues
-                If orders_all(1) = "DKK" Then
-                    intCreatedToday_DK = orders_all(0)
-                End If
-                If orders_all(1) = "SEK" Then
-                    intCreatedToday_SE = orders_all(0)
-                End If
-                If orders_all(1) = "NOK" Then
-                    intCreatedToday_NO = orders_all(0)
-                End If
-            Next
+            objSQL01Conn.Close()
 
         Catch ex As Exception
             Response.Write(ex.ToString())
         End Try
-
-        objSQL01Conn.Close()
 
     End Sub
 
@@ -224,35 +225,31 @@ Public Class fetch_wh_data
         Dim strSqlReader As SqlDataReader = strSqlCmdGetOrdersShippedToday.ExecuteReader()
         Try
 
-            Dim arrValues As List(Of String()) = New List(Of String())
-
             While strSqlReader.Read()
 
-                arrValues.Add({strSqlReader("Antal"), strSqlReader("Land")})
+                If strSqlReader("Land") = "DKK" Then
+                    intShippedToday_DK = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Land") = "SEK" Then
+                    intShippedToday_SE = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Land") = "NOK" Then
+                    intShippedToday_NO = strSqlReader("Antal")
+                End If
 
             End While
 
-            For Each orders_all In arrValues
-                If orders_all(1) = "DKK" Then
-                    intShippedToday_DK = orders_all(0)
-                End If
-                If orders_all(1) = "SEK" Then
-                    intShippedToday_SE = orders_all(0)
-                End If
-                If orders_all(1) = "NOK" Then
-                    intShippedToday_NO = orders_all(0)
-                End If
-            Next
+            objSQL01Conn.Close()
 
         Catch ex As Exception
             Response.Write(ex.ToString())
         End Try
 
-        objSQL01Conn.Close()
-
     End Sub
 
-    Protected Sub GetOrdersPickByZone()
+    Protected Sub GetOrdersByPickZone()
 
         Dim strSqlCmdGetOrdersByZone As SqlCommand = objSQL01Conn.CreateCommand
         strSqlCmdGetOrdersByZone.CommandText =
@@ -269,37 +266,35 @@ Public Class fetch_wh_data
         Dim strSqlReader As SqlDataReader = strSqlCmdGetOrdersByZone.ExecuteReader()
         Try
 
-            Dim arrValues As List(Of String()) = New List(Of String())
-
             While strSqlReader.Read()
 
-                arrValues.Add({strSqlReader("Antal"), strSqlReader("Plukzone")})
+                If strSqlReader("Plukzone") = "BESTILLING" Then
+                    intPickZone_Bestilling = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Plukzone") = "KOMPATIBEL" Then
+                    intPickZone_Kompatibel = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Plukzone") = "OFFICE" Then
+                    intPickZone_Office = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Plukzone") = "ORIGINAL" Then
+                    intPickZone_Original = strSqlReader("Antal")
+                End If
+
+                If strSqlReader("Plukzone") = "TONER" Then
+                    intPickZone_Toner = strSqlReader("Antal")
+                End If
 
             End While
 
-            For Each orders_all In arrValues
-                If orders_all(1) = "BESTILLING" Then
-                    intPickZone_Bestilling = orders_all(0)
-                End If
-                If orders_all(1) = "KOMPATIBEL" Then
-                    intPickZone_Kompatibel = orders_all(0)
-                End If
-                If orders_all(1) = "OFFICE" Then
-                    intPickZone_Office = orders_all(0)
-                End If
-                If orders_all(1) = "ORIGINAL" Then
-                    intPickZone_Original = orders_all(0)
-                End If
-                If orders_all(1) = "TONER" Then
-                    intPickZone_Toner = orders_all(0)
-                End If
-            Next
+            objSQL01Conn.Close()
 
         Catch ex As Exception
             Response.Write(ex.ToString())
         End Try
-
-        objSQL01Conn.Close()
 
     End Sub
 
@@ -365,31 +360,22 @@ Public Class fetch_wh_data
         Dim strSqlReader As SqlDataReader = strSqlCmdVariousOrderData.ExecuteReader()
         Try
 
-            Dim arrValues As List(Of String()) = New List(Of String())
-
             While strSqlReader.Read()
 
-                arrValues.Add({strSqlReader("DelordreriAlt"), strSqlReader("DelordrerSendtiDag"), strSqlReader("OrdrerTilPlukialt"),
-                              strSqlReader("OrdrerSendtTilPlukidag"), strSqlReader("PlukketKlarTilPak"), strSqlReader("SnapshotCreatedAt")})
+                intSplitAll = strSqlReader("DelordreriAlt")
+                intSplitSentToday = strSqlReader("DelordrerSendtiDag")
+                intReadyToPickAll = strSqlReader("OrdrerTilPlukialt")
+                intReadyToPickCreatedToday = strSqlReader("OrdrerSendtTilPlukidag")
+                intPickedReadyToShip = strSqlReader("PlukketKlarTilPak")
+                dtSnapshotCreatedAt = strSqlReader("SnapshotCreatedAt")
 
             End While
 
-            For Each orders_all In arrValues
-
-                intSplitAll = orders_all(0)
-                intSplitSentToday = orders_all(1)
-                intReadyToPickAll = orders_all(2)
-                intReadyToPickCreatedToday = orders_all(3)
-                intPickedReadyToShip = orders_all(4)
-                dtSnapshotCreatedAt = orders_all(5)
-
-            Next
+            objSQL01Conn.Close()
 
         Catch ex As Exception
             Response.Write(ex.ToString())
         End Try
-
-        objSQL01Conn.Close()
 
     End Sub
 
