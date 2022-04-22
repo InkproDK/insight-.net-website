@@ -148,19 +148,46 @@ Public Class _WarehouseDashboard
         arrSetColumns.Add({"CreatedToday_DK + CreatedToday_SE + CreatedToday_NO", "CreatedToday"})
         arrSetColumns.Add({"ShippedToday_DK + ShippedToday_SE + ShippedToday_NO", "ShippedToday"})
 
+        Dim dtGetCurrentHour As Date = Now()
+
         Dim arrSetIntervals As List(Of String) = New List(Of String)
-        arrSetIntervals.Add("07:59:59.999")
-        arrSetIntervals.Add("08:59:59.999")
-        arrSetIntervals.Add("09:59:59.999")
-        arrSetIntervals.Add("10:59:59.999")
-        arrSetIntervals.Add("11:59:59.999")
-        arrSetIntervals.Add("12:59:59.999")
-        arrSetIntervals.Add("13:59:59.999")
-        arrSetIntervals.Add("14:59:59.999")
-        arrSetIntervals.Add("15:59:59.999")
-        arrSetIntervals.Add("16:59:59.999")
-        arrSetIntervals.Add("17:59:59.999")
-        arrSetIntervals.Add("23:59:59.999")
+
+        If dtGetCurrentHour.ToString("HH") > 0 Then
+            arrSetIntervals.Add("00:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 8 Then
+            arrSetIntervals.Add("07:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 9 Then
+            arrSetIntervals.Add("08:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 10 Then
+            arrSetIntervals.Add("09:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 11 Then
+            arrSetIntervals.Add("10:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 12 Then
+            arrSetIntervals.Add("11:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 13 Then
+            arrSetIntervals.Add("12:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 14 Then
+            arrSetIntervals.Add("13:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 15 Then
+            arrSetIntervals.Add("14:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 16 Then
+            arrSetIntervals.Add("15:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 17 Then
+            arrSetIntervals.Add("16:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH") >= 18 Then
+            arrSetIntervals.Add("23:59:59.999")
+        End If
 
         Dim arrLineChartDataAll As List(Of Integer) = New List(Of Integer)
         Dim arrLineChartDataCreatedToday As List(Of Integer) = New List(Of Integer)
@@ -196,7 +223,7 @@ Public Class _WarehouseDashboard
 
             Dim SqlCmdGetYesterDayOrdersTotal As SqlCommand = objWEB01Conn.CreateCommand
             SqlCmdGetYesterDayOrdersTotal.CommandText = "SELECT TOP 1 (" & strColumns & ") FROM insight.dbo.wh_snapshots WHERE SnapshotCreatedAt
-                                                        BETWEEN CONCAT('2022-04-22', ' 00:00:00.000') AND CONCAT('2022-04-22 ', @SnapshotCreatedAt) ORDER BY Id DESC"
+                                                        BETWEEN CONCAT(CAST(GETDATE() As DATE), ' 00:00:00.000') AND CONCAT(CAST(GETDATE() As DATE), ' ', @SnapshotCreatedAt) ORDER BY Id DESC"
             SqlCmdGetYesterDayOrdersTotal.Parameters.AddWithValue("@SnapshotCreatedAt", dtSnapshotCreatedAt)
 
             If Not objWEB01Conn.State = ConnectionState.Open Then

@@ -1,10 +1,6 @@
 ﻿Imports System.Data.SqlClient
 Public Class fetch_wh_data
     Inherits System.Web.UI.Page
-
-    Dim objSQL01Conn As New SqlConnection(ConfigurationManager.ConnectionStrings("sql01conn").ConnectionString)
-    Dim objWEB01Conn As New SqlConnection(ConfigurationManager.ConnectionStrings("web01conn").ConnectionString)
-
     Dim intAll_DK As Integer = 0
     Dim intAll_SE As Integer = 0
     Dim intAll_NO As Integer = 0
@@ -25,14 +21,22 @@ Public Class fetch_wh_data
     Dim intPickZone_Original As Integer = 0
     Dim intPickZone_Toner As Integer = 0
     Dim dtSnapshotCreatedAt As Date = Now()
+    Dim objSQL01Conn As New SqlConnection(ConfigurationManager.ConnectionStrings("sql01conn").ConnectionString)
+    Dim objWEB01Conn As New SqlConnection(ConfigurationManager.ConnectionStrings("web01conn").ConnectionString)
+
+
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+
 
         GetOrdersAll()
         GetOrdersForToday()
         GetOrdersShippedToday()
         GetOrdersByPickZone()
         GetVariousOrderData()
+
+        Response.Write("DK: " & intShippedToday_DK & ", SE: " & intShippedToday_SE)
 
         Try
 
@@ -78,10 +82,10 @@ Public Class fetch_wh_data
             SqlCmdInsertSnapshot.Parameters.AddWithValue("@SnapshotCreatedAt", dtSnapshotCreatedAt)
 
             If Not objSQL01Conn.State = ConnectionState.Open Then
-                    objWEB01Conn.Open()
-                End If
+                objWEB01Conn.Open()
+            End If
 
-            SqlCmdInsertSnapshot.ExecuteNonQuery()
+            'SqlCmdInsertSnapshot.ExecuteNonQuery()
 
             objWEB01Conn.Close()
 
@@ -233,6 +237,10 @@ Public Class fetch_wh_data
 
                 If strSqlReader("Land") = "SEK" Then
                     intShippedToday_SE = strSqlReader("Antal")
+                End If
+
+                If Not strSqlReader("Land") = "SEK" Then
+                    intShippedToday_SE = 45445
                 End If
 
                 If strSqlReader("Land") = "NOK" Then
