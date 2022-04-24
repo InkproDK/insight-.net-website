@@ -28,8 +28,6 @@ Public Class fetch_wh_data
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-
-
         GetOrdersAll()
         GetOrdersForToday()
         GetOrdersShippedToday()

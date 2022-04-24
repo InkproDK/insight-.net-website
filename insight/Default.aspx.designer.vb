@@ -11,5 +11,5 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class WarehouseDashboard
+Partial Public Class _Default
 End Class

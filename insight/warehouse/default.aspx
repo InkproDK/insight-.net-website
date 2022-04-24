@@ -1,19 +1,5 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="default.aspx.vb" Inherits="insight._WarehouseDashboard" %>
 
-<!--
-=========================================================
-* Paper Dashboard 2 - v2.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-2
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,13 +18,14 @@ Coded by www.creative-tim.com
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <meta http-equiv="refresh" content="30">
 </head>
 
 <body class="">
     <form id="form1" runat="server">
-        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+<%--        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-                <asp:Timer ID="Timer1" runat="server" Interval="30000" ontick="Timer1_Tick"></asp:Timer>
+                <asp:Timer ID="Timer1" runat="server" Interval="30000" ontick="Timer1_Tick"></asp:Timer>--%>
 
   <div class="wrapper ">
     <div class="main-panel">
@@ -58,29 +45,29 @@ Coded by www.creative-tim.com
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Ordrer i alt</p>
-                    <asp:UpdatePanel ID="uPnlOrders_All" runat="server">
-                        <ContentTemplate>
-                            <p class="card-title"><%=FormatNumber(intAll_Total, 0)%><p>
-                        </ContentTemplate>
+                      <p class="card-category">Ordrer i dag</p>
+<%--                    <asp:UpdatePanel ID="uPnlOrders_All" runat="server">
+                        <ContentTemplate>--%>
+                            <p class="card-title"><%=FormatNumber(intCreatedToday_Total, 0)%><p>
+<%--                        </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                         </Triggers>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="card-footer " align="right">
                 <hr>
-                    <asp:UpdatePanel ID="uPnlCreatedToday" runat="server">
-                        <ContentTemplate>
-                            <div class="stats"><%=FormatNumber(intCreatedToday_Total, 0)%> nye salgsordrer i dag</div>
-                        </ContentTemplate>
+<%--                    <asp:UpdatePanel ID="uPnlCreatedToday" runat="server">
+                        <ContentTemplate>--%>
+                            <div class="stats"><%=FormatNumber(intAll_Total, 0)%> ordrer i alt | <%=FormatNumber((intAll_Total - intReadyToPickAll), 0)%> ikke frigivet</div>
+<%--                        </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                         </Triggers>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
               </div>
             </div>
           </div>
@@ -96,28 +83,28 @@ Coded by www.creative-tim.com
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Ordrer til pluk</p>
-                    <asp:UpdatePanel ID="uPnlReadyToPickAll" runat="server">
-                        <ContentTemplate>
+<%--                    <asp:UpdatePanel ID="uPnlReadyToPickAll" runat="server">
+                        <ContentTemplate>--%>
                         <p class="card-title"><%=FormatNumber(intReadyToPickAll, 0)%><p>
-                        </ContentTemplate>
+<%--                        </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                         </Triggers>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="card-footer " align="right">
                 <hr>
-                    <asp:UpdatePanel ID="uPnlReadyToPickCreatedToday" runat="server">
-                        <ContentTemplate>
-                            <div class="stats"><%=FormatNumber(intReadyToPickCreatedToday, 0)%> ordrer frigivet til pluk i dag</div>
-                        </ContentTemplate>
+<%--                    <asp:UpdatePanel ID="uPnlReadyToPickCreatedToday" runat="server">
+                        <ContentTemplate>--%>
+                            <div class="stats"><%=FormatNumber(intReadyToPickCreatedToday, 0)%> frigivet til pluk i dag</div>
+<%--                        </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                         </Triggers>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
               </div>
             </div>
           </div>
@@ -133,31 +120,31 @@ Coded by www.creative-tim.com
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Plukket, klar til pak</p>
-                    <asp:UpdatePanel ID="uPnlPickedReadyToShip" runat="server">
-                        <ContentTemplate>
+<%--                    <asp:UpdatePanel ID="uPnlPickedReadyToShip" runat="server">
+                        <ContentTemplate>--%>
                         <p class="card-title"><%=FormatNumber(intPickedReadyToShip, 0)%><p>
-                        </ContentTemplate>
+<%--                        </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                         </Triggers>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="card-footer " align="right">
                 <hr>
-                    <asp:UpdatePanel ID="uPnlSplit" runat="server">
-                        <ContentTemplate>
+<%--                    <asp:UpdatePanel ID="uPnlSplit" runat="server">
+                        <ContentTemplate>--%>
                             <div class="stats">
                                 <%=FormatNumber(intSplitAll, 0)%> delordrer i alt | 
                                 <%=FormatNumber(intSplitSentToday, 0)%> oprettet i dag
                             </div>
-                        </ContentTemplate>
+<%--                        </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                         </Triggers>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
               </div>
             </div>
           </div>
@@ -173,30 +160,30 @@ Coded by www.creative-tim.com
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Afsendt</p>
-                    <asp:UpdatePanel ID="uPnlShippedToday_Total" runat="server">
-                        <ContentTemplate>
+<%--                    <asp:UpdatePanel ID="uPnlShippedToday_Total" runat="server">
+                        <ContentTemplate>--%>
                         <p class="card-title"><%=FormatNumber(intShippedToday_Total, 0)%><p>
-                        </ContentTemplate>
+<%--                        </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                         </Triggers>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="card-footer " align="right">
                 <hr>
-                    <asp:UpdatePanel ID="uPnlShippedYesterdaySameTime" runat="server">
-                        <ContentTemplate>
+<%--                    <asp:UpdatePanel ID="uPnlShippedYesterdaySameTime" runat="server">
+                        <ContentTemplate>--%>
                             <div class="stats">
-                                <%=FormatNumber(intShippedYesterdaySameTime, 0)%> sendt samme tid i går
+                                <%=FormatNumber(intShippedYesterdaySameTime, 0)%> samme tid i går
                             </div>
-                        </ContentTemplate>
+<%--                        </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                         </Triggers>
-                    </asp:UpdatePanel>
+                    </asp:UpdatePanel>--%>
               </div>
             </div>
           </div>
@@ -205,11 +192,11 @@ Coded by www.creative-tim.com
           <div class="col-md-4">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">Ordrer til pluk pr. zone</h5>
+                <h5 class="card-title" style="margin-bottom:0px;" align="center">Pluk fordelt på zoner</h5>
                 <%--<p class="card-category">Last Campaign Performance</p>--%>
               </div>
               <div class="card-body ">
-                <canvas id="chartOrdersByPickZone"></canvas>
+                <canvas id="chartOrdersByPickZone" height="130"></canvas>
               </div>
               <div class="card-footer ">
                 <div class="legend" align="center">
@@ -222,19 +209,42 @@ Coded by www.creative-tim.com
               </div>
             </div>
           </div>
+
           <div class="col-md-8">
-            <div class="card card-chart">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title" style="margin-bottom:0px;" align="center">Gennemsnit pr. time</h5>
+                <%--<p class="card-category">Last Campaign Performance</p>--%>
+              </div>
+              <div class="card-body ">
+                <canvas id="chartOrdersAverages" height="62"></canvas>
+              </div>
+              <div class="card-footer ">
+                <div class="legend" align="center">
+                  <i class="fa fa-circle text-danger"></i> Nye
+                  <i class="fa fa-circle text-success" style="margin-left: 5%;"></i> Afsendt
+                </div>
+              </div>
+            </div>
+          </div>          
+
+
+          
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            <div class="card card-chart" style="margin-bottom:10px;">
               <div class="card-header">
-                <h5 class="card-title">Backlog vs. dagens ordrer</h5>
+                <h5 class="card-title" align="center">Ordrer for i dag</h5>
                 <%--<p class="card-category">Line Chart with Points</p>--%>
               </div>
-              <div class="card-body">
-                <canvas id="speedChart" width="400" height="94"></canvas>
+              <div class="card-body" style="padding-bottom:0px;">
+                <canvas id="chartOrdersForToday" height="40"></canvas>
               </div>
-              <div class="card-footer">
+              <div class="card-footer" align="center" style="margin-top:0px;">
                 <div class="chart-legend">
-                  <i class="fa fa-circle text-danger"></i> Alle ordrer
-                  <i class="fa fa-circle text-primary" style="margin-left: 5%;"></i> Nye ordrer
+                  <i class="fa fa-circle text-danger"></i> Nye
+                  <i class="fa fa-circle text-warning" style="margin-left: 5%;"></i> Til pluk
                   <i class="fa fa-circle text-success" style="margin-left: 5%;"></i> Afsendt
                 </div>
               </div>
@@ -253,9 +263,6 @@ Coded by www.creative-tim.com
   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chart JS -->
   <script src="assets/js/plugins/chartjs.min.js"></script>
-
-    <asp:UpdatePanel ID="uPnlPieChart" runat="server">
-        <ContentTemplate>
 
     <script>
           ctx = document.getElementById('chartOrdersByPickZone').getContext("2d");
@@ -276,7 +283,7 @@ Coded by www.creative-tim.com
             '#ccc',
           ],
           borderWidth: 0,
-          data: <%=strPieChartData%>
+          data: [<%=strPieChartData%>]
         }]
       },
 
@@ -331,20 +338,11 @@ Coded by www.creative-tim.com
 
   </script>
 
-        </ContentTemplate>
-            <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
-            </Triggers>
-    </asp:UpdatePanel>
-
-    <asp:UpdatePanel ID="uPnlLineChart" runat="server">
-        <ContentTemplate>
-
     <script>
-            var speedCanvas = document.getElementById("speedChart");
+            var speedCanvas = document.getElementById("chartOrdersAverages");
 
     var dataFirst = {
-      data: <%=strLineChartDataAll%>,
+      data: <%=strLineChartAverageCreatedToday%>,
       fill: false,
       borderColor: '#df4759',
       backgroundColor: 'transparent',
@@ -355,18 +353,7 @@ Coded by www.creative-tim.com
     };
 
     var dataSecond = {
-      data: <%=strLineChartDataCreatedToday%>,
-      fill: false,
-      borderColor: '#7c69ef',
-      backgroundColor: 'transparent',
-      pointBorderColor: '#7c69ef',
-      pointRadius: 0,
-      pointHoverRadius: 4,
-      pointBorderWidth: 8
-    };
-
-    var dataThird = {
-      data: <%=strLineChartDataShippedToday%>,
+      data: <%=strLineChartAverageShippedToday%>,
       fill: false,
       borderColor: '#42ba96',
       backgroundColor: 'transparent',
@@ -377,7 +364,68 @@ Coded by www.creative-tim.com
     };
 
     var speedData = {
-      labels: ["00", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "00"],
+      labels: ["00:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "00:00"],
+      datasets: [dataFirst, dataSecond]
+    };
+
+        var chartOptions = {
+
+        animation: {
+        duration: 0
+    },
+
+      legend: {
+        display: false,
+        position: 'top'
+      }
+    };
+
+    var lineChart = new Chart(speedCanvas, {
+      type: 'line',
+      hover: false,
+      data: speedData,
+      options: chartOptions
+    });
+    </script>
+        
+    <script>
+            var speedCanvas = document.getElementById("chartOrdersForToday");
+
+    var dataFirst = {
+      data: <%=strLineChartOrdersForTodayCreatedToday%>,
+      fill: false,
+      borderColor: '#df4759',
+      backgroundColor: 'transparent',
+      pointBorderColor: '#df4759',
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointBorderWidth: 8,
+    };
+
+    var dataSecond = {
+      data: <%=strLineChartOrdersForTodayReadyToPickCreatedToday%>,
+      fill: false,
+      borderColor: '#ffc107',
+      backgroundColor: 'transparent',
+      pointBorderColor: '#ffc107',
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointBorderWidth: 8
+    };
+
+    var dataThird = {
+      data: <%=strLineChartOrdersForTodayShippedToday%>,
+      fill: false,
+      borderColor: '#42ba96',
+      backgroundColor: 'transparent',
+      pointBorderColor: '#42ba96',
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointBorderWidth: 8
+    };
+
+    var speedData = {
+      labels: ["00:00", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "00:00"],
       datasets: [dataFirst, dataSecond, dataThird]
     };
 
@@ -401,22 +449,12 @@ Coded by www.creative-tim.com
     });
     </script>
 
-        </ContentTemplate>
-            <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
-            </Triggers>
-    </asp:UpdatePanel>
-
-
   <!--  Notifications Plugin    -->
   <script src="assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
 
-
-
 </form>
 </body>
 
 </html>
-
