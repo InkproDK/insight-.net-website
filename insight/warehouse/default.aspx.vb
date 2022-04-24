@@ -19,6 +19,7 @@ Public Class _WarehouseDashboard
     Public strLineChartOrdersForTodayShippedToday As String = ""
     Public strLineChartAverageCreatedToday As String = ""
     Public strLineChartAverageShippedToday As String = ""
+    Public strSnapshotCreatedAt As String = ""
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
 
@@ -101,6 +102,8 @@ Public Class _WarehouseDashboard
 
             GetAverages()
             GetDataForchartOrdersForToday()
+
+            strSnapshotCreatedAt = dtSnapshotCreatedAs
 
         Catch ex As Exception
             Response.Write(ex.ToString())
@@ -219,8 +222,11 @@ Public Class _WarehouseDashboard
         If dtGetCurrentTime.ToString("HH:mm") >= "17:30" Then
             arrSetIntervals.Add("17:29:59.999")
         End If
-        If dtGetCurrentTime.ToString("HH") >= 18 Then
-            arrSetIntervals.Add("23:59:59.999")
+        If dtGetCurrentTime.ToString("HH:mm") >= "18:00" Then
+            arrSetIntervals.Add("17:59:59.999")
+        End If
+        If dtGetCurrentTime.ToString("HH:mm") >= "23:50" Then
+            arrSetIntervals.Add("23:49:59.999")
         End If
 
         Dim arrLineChartReadyToPickCreatedToday As List(Of Integer) = New List(Of Integer)
@@ -327,6 +333,9 @@ Public Class _WarehouseDashboard
         End If
         If dtGetCurrentHour.ToString("HH") >= 18 Then
             arrSetIntervals.Add("17:59:59.999")
+        End If
+        If dtGetCurrentHour.ToString("HH:mm") >= "23:50" Then
+            arrSetIntervals.Add("23:59:59.999")
         End If
 
         Dim arrLineChartDataAll As List(Of Integer) = New List(Of Integer)
