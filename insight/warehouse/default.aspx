@@ -213,7 +213,7 @@
           <div class="col-md-8">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title" style="margin-bottom:0px;" align="center">Gennemsnit pr. time</h5>
+                <h5 class="card-title" style="margin-bottom:0px;" align="center">Ordrer for i dag, fordelt på timer</h5>
                 <%--<p class="card-category">Last Campaign Performance</p>--%>
               </div>
               <div class="card-body ">
