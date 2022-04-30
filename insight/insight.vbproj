@@ -157,6 +157,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="customerservice\filtertable.css" />
+    <Content Include="customerservice\husen.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -204,6 +206,7 @@
     <Content Include="Scripts\WebForms\WebForms.js" />
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
+    <Content Include="test\testchart.aspx" />
     <Content Include="warehouse\convertjavatocodebehind.aspx" />
     <Content Include="test\default2.aspx" />
     <Content Include="test\fetch_wh_data.aspx" />
@@ -307,6 +310,13 @@
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="customerservice\husen.aspx.designer.vb">
+      <DependentUpon>husen.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customerservice\husen.aspx.vb">
+      <DependentUpon>husen.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Default.aspx.vb">
       <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>Default.aspx</DependentUpon>
@@ -342,6 +352,13 @@
     <Compile Include="Site.Master.vb">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="test\testchart.aspx.designer.vb">
+      <DependentUpon>testchart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="test\testchart.aspx.vb">
+      <DependentUpon>testchart.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="warehouse\convertjavatocodebehind.aspx.designer.vb">
       <DependentUpon>convertjavatocodebehind.aspx</DependentUpon>
